@@ -24,16 +24,19 @@ class HomePage extends StatelessWidget {
                 },
                 child: const Text('Start Tracking'),
               )
-            else if (timeTracker.endTime == null)
+            else if (timeTracker.endTime == null) ...[
+              Text('Duration: ${timeTracker.formattedDuration}'),
               ElevatedButton(
                 onPressed: () {
                   timeTracker.stopTracking();
                 },
                 child: const Text('Stop Tracking'),
-              )
+              ),
+            ]
             else ...[
               Text('Start Time: ${timeTracker.startTime}'),
               Text('End Time: ${timeTracker.endTime}'),
+              Text('Total Duration: ${timeTracker.formattedDuration}'),
               ElevatedButton(
                 onPressed: () {
                   timeTracker.resetTracking();
