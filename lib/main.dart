@@ -5,8 +5,10 @@ import '../vistas/home.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => TimeTracker(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TimeTracker()),
+      ],
       child: const MainApp(),
     ),
   );
