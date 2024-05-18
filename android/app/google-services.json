@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "73653436397",
+    "project_id": "ficharhoras-7b302",
+    "storage_bucket": "ficharhoras-7b302.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73653436397:android:cead15b0f7f81361dbb1e4",
+        "android_client_info": {
+          "package_name": "com.example.fichar_horas_trabajo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd-1BFsLeOlzq5xcUehnd5qnaypcQ2P28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
