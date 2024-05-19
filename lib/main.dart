@@ -4,7 +4,7 @@ import 'firebase_options.dart';
 
 import 'package:provider/provider.dart';
 import '../providers/timeTracker.dart';
-import '../vistas/home.dart';
+import '../providers/authWrapper.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,8 +30,12 @@ class MainApp extends StatelessWidget {
       title: 'Fichar Horas Trabajo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          color: Color.fromARGB(255, 10, 192, 192),
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const HomePage(),
+      home: const AuthWrapper(),
     );
   }
 }
