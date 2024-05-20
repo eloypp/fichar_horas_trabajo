@@ -4,7 +4,7 @@ import 'firebase_options.dart';
 
 import 'package:provider/provider.dart';
 import '../providers/timeTracker.dart';
-import '../providers/authWrapper.dart';
+import 'controllers/authWrapper.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

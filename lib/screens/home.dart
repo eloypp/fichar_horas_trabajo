@@ -5,9 +5,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../providers/timeTracker.dart';
 import 'history.dart';
 import 'profile.dart';
+import 'admin.dart';
+import '../controllers/userController.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String? userRole;
+  final UserController _userController = UserController();
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserRole();
+  }
+
+  Future<void> _getUserRole() async {
+    User? user = _userController.getCurrentUser();
+    if (user != null) {
+      String? role = await _userController.getUserRole(user.uid);
+      setState(() {
+        userRole = role;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +89,17 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
+            if (userRole == 'admin')
+              ListTile(
+                leading: const Icon(Icons.admin_panel_settings),
+                title: const Text('Admin Panel'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AdminPanelPage()),
+                  );
+                },
+              ),
           ],
         ),
       ),
@@ -89,10 +126,10 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       timeTracker.startTracking();
                     },
-                    child: const Text('Iniciar'),
+                    child: const Text('Iniciar Actividad'),
                   )
                 else if (timeTracker.endTime == null) ...[
-                  Text('Duration: ${timeTracker.formattedDuration}'),
+                  Text('Duración: ${timeTracker.formattedDuration}'),
                   ElevatedButton(
                     onPressed: () {
                       timeTracker.stopTracking();
@@ -119,3 +156,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
