@@ -1,18 +1,32 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TimeRecord {
   final DateTime date;
   final DateTime startTime;
   final DateTime endTime;
   final Duration duration;
+  final String user;
 
   TimeRecord({
     required this.date,
     required this.startTime,
     required this.endTime,
     required this.duration,
+    required this.user,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'date': date,
+      'startTime': startTime,
+      'endTime': endTime,
+      'duration': duration.inSeconds,
+      'user': user,
+    };
+  }
 }
 
 class TimeTracker extends ChangeNotifier {
@@ -33,7 +47,7 @@ class TimeTracker extends ChangeNotifier {
     _endTime = null;
     _currentDuration = Duration.zero;
 
-    _timer?.cancel();  // Cancel any existing timer
+    _timer?.cancel();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _currentDuration = DateTime.now().difference(_startTime!);
       notifyListeners();
@@ -42,16 +56,26 @@ class TimeTracker extends ChangeNotifier {
     notifyListeners();
   }
 
-  void stopTracking() {
+  Future<void> stopTracking() async {
     _timer?.cancel();
     _endTime = DateTime.now();
     _currentDuration = _endTime!.difference(_startTime!);
-    _records.insert(0, TimeRecord(
-      date: _startTime!,
-      startTime: _startTime!,
-      endTime: _endTime!,
-      duration: _currentDuration,
-    ));
+
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final newRecord = TimeRecord(
+        date: _startTime!,
+        startTime: _startTime!,
+        endTime: _endTime!,
+        duration: _currentDuration,
+        user: user.displayName ?? 'Usuario',
+      );
+
+      _records.insert(0, newRecord);
+
+      await FirebaseFirestore.instance.collection('trackingHistory').add(newRecord.toMap());
+    }
+
     notifyListeners();
   }
 
