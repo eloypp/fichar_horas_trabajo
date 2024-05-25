@@ -8,25 +8,17 @@ class TimeRecord {
   final DateTime startTime;
   final DateTime endTime;
   final Duration duration;
-  final String user;
+  final String department;
+  final String concept;
 
   TimeRecord({
     required this.date,
     required this.startTime,
     required this.endTime,
     required this.duration,
-    required this.user,
+    required this.department,
+    required this.concept,
   });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'date': date,
-      'startTime': startTime,
-      'endTime': endTime,
-      'duration': duration.inSeconds,
-      'user': user,
-    };
-  }
 }
 
 class TimeTracker extends ChangeNotifier {
@@ -35,6 +27,8 @@ class TimeTracker extends ChangeNotifier {
   Timer? _timer;
   Duration _currentDuration = Duration.zero;
   final List<TimeRecord> _records = [];
+  String? _selectedDepartment;
+  String? _concept;
 
   DateTime? get startTime => _startTime;
   DateTime? get endTime => _endTime;
@@ -42,12 +36,27 @@ class TimeTracker extends ChangeNotifier {
   Duration get currentDuration => _currentDuration;
   List<TimeRecord> get records => List.unmodifiable(_records);
 
+  void setSelectedDepartment(String department) {
+    _selectedDepartment = department;
+    notifyListeners();
+  }
+
+  void setConcept(String concept) {
+    _concept = concept;
+    notifyListeners();
+  }
+
   void startTracking() {
+    if (_selectedDepartment == null || _concept == null || _concept!.isEmpty) {
+      // Handle error: Show dialog to user
+      return;
+    }
+
     _startTime = DateTime.now();
     _endTime = null;
     _currentDuration = Duration.zero;
 
-    _timer?.cancel();
+    _timer?.cancel();  // Cancel any existing timer
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _currentDuration = DateTime.now().difference(_startTime!);
       notifyListeners();
@@ -56,25 +65,32 @@ class TimeTracker extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> stopTracking() async {
+  void stopTracking() {
     _timer?.cancel();
     _endTime = DateTime.now();
     _currentDuration = _endTime!.difference(_startTime!);
 
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final newRecord = TimeRecord(
-        date: _startTime!,
-        startTime: _startTime!,
-        endTime: _endTime!,
-        duration: _currentDuration,
-        user: user.displayName ?? 'Usuario',
-      );
+    final record = TimeRecord(
+      date: _startTime!,
+      startTime: _startTime!,
+      endTime: _endTime!,
+      duration: _currentDuration,
+      department: _selectedDepartment!,
+      concept: _concept!,
+    );
 
-      _records.insert(0, newRecord);
+    _records.insert(0, record);
 
-      await FirebaseFirestore.instance.collection('trackingHistory').add(newRecord.toMap());
-    }
+    // Save to Firestore
+    FirebaseFirestore.instance.collection('trackingHistory').add({
+      'date': record.date,
+      'startTime': record.startTime,
+      'endTime': record.endTime,
+      'duration': record.duration.inSeconds,
+      'department': record.department,
+      'concept': record.concept,
+      'user': FirebaseAuth.instance.currentUser!.displayName,
+    });
 
     notifyListeners();
   }
@@ -84,6 +100,8 @@ class TimeTracker extends ChangeNotifier {
     _startTime = null;
     _endTime = null;
     _currentDuration = Duration.zero;
+    _selectedDepartment = null;
+    _concept = null;
     notifyListeners();
   }
 

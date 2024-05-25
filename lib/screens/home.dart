@@ -18,6 +18,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? userRole;
   final UserController _userController = UserController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String? _selectedDepartment;
+
+  final List<String> _departments = [
+    'Arte',
+    'Diseño Narrativo',
+    'Música',
+    'Programación',
+    'Investigación',
+    'Otros'
+  ];
 
   @override
   void initState() {
@@ -122,11 +133,77 @@ class _HomePageState extends State<HomePage> {
                   ),
                 const SizedBox(height: 20),
                 if (timeTracker.startTime == null)
-                  ElevatedButton(
-                    onPressed: () {
-                      timeTracker.startTracking();
-                    },
-                    child: const Text('Iniciar Actividad'),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Departamento* :',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          DropdownButtonFormField<String>(
+                            value: _selectedDepartment,
+                            hint: const Text('Selecciona un Departamento'),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedDepartment = newValue;
+                              });
+                              timeTracker.setSelectedDepartment(newValue!);
+                            },
+                            validator: (value) =>
+                                value == null ? 'Campo obligatorio' : null,
+                            items: _departments
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: 16.0),
+                          const Text(
+                            'Concepto* :',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              timeTracker.setConcept(value);
+                            },
+                            validator: (value) =>
+                                value == null || value.isEmpty ? 'Campo obligatorio' : null,
+                          ),
+                          const SizedBox(height: 16.0),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                timeTracker.startTracking();
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: const Text('Hay campos obligatorios sin rellenar'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            child: const Text('Iniciar Actividad'),
+                          ),
+                        ],
+                      ),
+                    ),
                   )
                 else if (timeTracker.endTime == null) ...[
                   Text('Duración: ${timeTracker.formattedDuration}'),

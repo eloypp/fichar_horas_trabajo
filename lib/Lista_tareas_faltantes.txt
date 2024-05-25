@@ -1,0 +1,15 @@
+1-. Hacer pantalla para la lista de tareas
+2-. Implementar botón para cambiar contraseña en el login
+
+4.- Implementar fondos en las pantallas correspondientes
+5.- Hacer que al poner un concepto se añada a la lista de tareas automáticamente
+6.- Hacer que además de escribir se pueda elegir en el concepto una tarea de la lista de tareas
+
+8.- Implementar crud básico de usuarios en el panel de administrador
+
+10.- Añadir la foto de perfil en la pantalla Home, al pulsarla te llevaría a perfil
+
+12.- Pasar la aplicación a apk
+13.- Icon para la aplicación
+
+Nota: Foto de Perfil sólo funciona en android no en web

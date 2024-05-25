@@ -16,6 +16,7 @@ dependencies:
   firebase_database: ^10.3.8
   firebase_auth: ^4.15.3
   cloud_firestore: ^4.17.3
+  firebase_storage: ^11.7.6
 
 dev_dependencies:
   flutter_test:
@@ -24,3 +25,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/assets/images/fondo_ficharHoras.jpg

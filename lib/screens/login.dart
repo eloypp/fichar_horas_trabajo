@@ -60,14 +60,17 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('Login'),
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const RegisterPage()),
-                );
-              },
-              child: const Text('Crear cuenta'),
+            Visibility(
+              visible: false, // Cambia a true si deseas hacer visible el botón
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                     MaterialPageRoute(builder: (context) => const RegisterPage()),
+                  );
+                },
+                child: const Text('Crear cuenta'),
+              ),
             ),
           ],
         ),
