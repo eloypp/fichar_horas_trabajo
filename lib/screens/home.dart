@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fichar Horas Trabajo'),
+        title: const Text('Fichar Tareas'),
         titleTextStyle: const TextStyle(
           color: Colors.white, 
           fontSize: 20.0, 
