@@ -11,6 +11,11 @@ class HistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Historial de horas fichadas'),
+        titleTextStyle: const TextStyle(
+          color: Colors.white, 
+          fontSize: 20.0, 
+          fontWeight: FontWeight.bold, 
+        ),
       ),
       body: Stack(
         children: [
