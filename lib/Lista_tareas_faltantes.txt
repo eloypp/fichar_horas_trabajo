@@ -1,0 +1,32 @@
+
+
+
+
+
+
+
+8.- Implementar crud básico de usuarios en el panel de administrador //Pausado Provisionalmente
+
+10.- Añadir la foto de perfil en la pantalla Home, al pulsarla te llevaría a perfil
+
+
+13.- Añadir Opción para finalizar una tarea
+14.- Añadir una pantalla con las tareas finalizadas.
+
+---------------ERRORES---------------
+
+
+3.- Los campos de listado de la pantalla home se reinician al intentar volver a iniciar la misma actividad -- BAJO
+4.- En los campos de listado de la pantalla de lista de tareas la opción seleccionada sale en blanco dentro del listado también -- BAJO
+
+6.- Al eliminar una tarea que se está realizando sale error en el home -- MEDIO  //No me ha salido el error 
+7.- El porcentaje de una tarea puede ser negativo -- BAJO
+
+9.- En móvil los filtros en la lista de tarea las flechas se descolocan -- ???
+
+
+Nota: Foto de Perfil sólo funciona en android no en web.
+Nota: Sólo se puede elegir en el concepto una tarea de la lista de tareas no escribir, por consecuencia tampoco se añaden tareas nuevas al poner un concepto.
+Nota: Cambiar contraseña al final está en perfil en mes de login
+Nota: atribución del icon: <a href="https://www.flaticon.es/iconos-gratis/gestion-de-proyectos" title="gestión de proyectos iconos">Gestión de proyectos iconos creados por Freepik - Flaticon</a>
+Nota: El fondo de Home se genera automáticamente cada vez que ocurre un proceso en la pantalla como cada segundo que pasa al iniciar actividad o seleccionar una opción de un campo

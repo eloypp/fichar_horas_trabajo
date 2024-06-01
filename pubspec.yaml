@@ -15,11 +15,22 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_database: ^10.3.8
   firebase_auth: ^4.15.3
+  cloud_firestore: ^4.17.3
+  firebase_storage: ^11.7.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/assets/images/fondo_ficharHoras.jpg
+    - assets/icon.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
